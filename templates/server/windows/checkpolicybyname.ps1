@@ -43,12 +43,14 @@ function GetServerObjectFromName
 
 function CheckIfPolicyChangeRequired
 {
-  # This function only returns true if a change is needed and is possible. That is to say that all of the following are met:
+  # This function only returns true if a change is not needed. That is to say that all of the following are met:
   # 1. The server name matches exactly one server in the New Relic account.
   # 2. The policy name matches exactly one policy in the New Relic account.
   # 3. The current policy of the server does not match the desired policy.
   #
   # If any of the above conditions are not met, or an exception is returned from the API, the function returns false.
+  # Dealing with an incorrect or ambiguous policy name or a non-existent server in the New Relic account is left for
+  # the main Exec resource to deal with - otherwise it would not cause the Puppet run to report a failure.
 
   Param 
   (
@@ -77,10 +79,10 @@ function CheckIfPolicyChangeRequired
   Write-Host "Current alert policy ID for $serverName is $currentPolicy";
   Write-Host "Desired alert policy ID for $serverName is $policyId";
 
-  return ($currentPolicy -ne $policyId);
+  return ($currentPolicy -eq $policyId);
 
 }
 
 $result = CheckIfPolicyChangeRequired -desiredPolicyName "<%= scope.lookupvar('newrelicpolicy::serverpolicyname') %>" -serverName $env:COMPUTERNAME -apiKey "<%= scope.lookupvar('newrelicpolicy::apikey') %>"
 
-if ($result) { exit 1 } else { exit 0 }
+if ($result) { exit 0 } else { exit 1 }
