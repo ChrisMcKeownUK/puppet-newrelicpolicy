@@ -12,12 +12,12 @@ class newrelicpolicy (
     }
     if $serverpolicyid {
       class{'newrelicpolicy::server::policy':
-        setmethod = 'id',
+        setmethod => 'id',
       }
     }
     elsif $serverpolicyname {
       class{'newrelicpolicy::server::policy':
-        setmethod = 'name'
+        setmethod => 'name'
       }
     }
   }
