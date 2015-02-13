@@ -1,6 +1,6 @@
 class newrelicpolicy::server::policy (
   $setmethod,
-{
+) {
   
   validate_re($setmethod, ['id', 'name'])
   
@@ -16,5 +16,5 @@ class newrelicpolicy::server::policy (
         provider  => powershell,
       }
     }
- 
+  }
 }

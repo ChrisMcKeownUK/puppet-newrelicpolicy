@@ -10,7 +10,6 @@ class newrelicpolicy (
     if !$apikey or (!$serverpolicyid and !$serverpolicyname) {
       fail("Param manage_serverpolicy was set to true but no API key, policy name or policy ID was specified.")
     }
-    
     if $serverpolicyid {
       class{'newrelicpolicy::server::policy':
         setmethod = 'id',
@@ -21,7 +20,6 @@ class newrelicpolicy (
         setmethod = 'name'
       }
     }
-    
   }
   
 }
